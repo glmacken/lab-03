@@ -23,9 +23,8 @@ public class City implements Serializable {
 
     /**
      * Creates a City object
-     *
      * @param name The name of the City
-     * @param province The province in which the city resides
+     * @param province The province in which the City resides
      */
     public City(String name, String province) {
         this.name = name;
@@ -51,6 +50,6 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s", this.name, this.province);
+        return String.format("%s %s", this.name, this.province);
     }
 }

@@ -16,6 +16,7 @@ public class AddCityFragment extends DialogFragment {
 
     public interface AddCityDialogListener {
         void addCity(City city);
+        void editCity(City city, String newName, String newProvince);
     }
 
     private AddCityDialogListener listener;
@@ -34,19 +35,52 @@ public class AddCityFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        // get the City data if we passed any to it
+        Bundle args = getArguments();
+        City cityToEdit;
+        if (args != null) {
+            cityToEdit = (City) args.getSerializable("city");
+        } else {
+            cityToEdit = null;
+        }
+
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_city, null);
         EditText editCityName = view.findViewById(R.id.edit_text_city_text);
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        if (cityToEdit != null) {
+            editCityName.setText(cityToEdit.getName());
+            editProvinceName.setText(cityToEdit.getProvince());
+        }
+
         return builder
                 .setView(view)
-                .setTitle("Add a city")
+                .setTitle("Add/edit a city")
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Add", (dialog, which) -> {
+                .setPositiveButton("Confirm", (dialog, which) -> {
                     String cityName = editCityName.getText().toString();
                     String provinceName = editProvinceName.getText().toString();
-                    listener.addCity(new City(cityName, provinceName));
+                    if (cityToEdit != null) { // Edit mode
+                        listener.editCity(cityToEdit, cityName, provinceName);
+                    } else { // Add mode
+                        listener.addCity(new City(cityName, provinceName));
+                    }
                 })
                 .create();
+    }
+
+    /**
+     * Creates a new instance of AddCityFragment and passes a City to it.
+     * @param city the selected City element
+     * @return a new AddCityFragment with the selected City data passed to it
+     */
+    static AddCityFragment newInstance(City city) {
+        Bundle args = new Bundle();
+        args.putSerializable("city", city);
+
+        AddCityFragment fragment = new AddCityFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 }

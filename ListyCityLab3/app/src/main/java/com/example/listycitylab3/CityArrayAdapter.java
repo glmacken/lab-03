@@ -20,18 +20,18 @@ public class CityArrayAdapter extends ArrayAdapter<City> {
     /**
      * Creates a CityArrayAdapter
      * @param context
-     * @param cities
+     * @param cities an ArrayList of City objects
      */
     public CityArrayAdapter(Context context, ArrayList<City> cities) {
         super(context, 0, cities);
     }
 
     /**
-     * I'll figure out a good description later
-     * @param position
+     * Custom getView() function for implementation of a ListView holding City objects
+     * @param position index of City object in List View
      * @param convertView used to recycle old views within a ListView
-     * @param parent
-     * @return
+     * @param parent the view containing the List View
+     * @return either a new or reused view
      */
     @NonNull
     @Override

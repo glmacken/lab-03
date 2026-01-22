@@ -11,7 +11,6 @@ import android.widget.ListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements AddCityFragment.AddCityDialogListener {
 
@@ -38,9 +37,20 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
         cityAdapter = new CityArrayAdapter(this, dataList);
         cityList.setAdapter(cityAdapter);
 
+        // Set on click listeners
+
         FloatingActionButton fab = findViewById(R.id.button_add_city);
         fab.setOnClickListener(v -> {
             new AddCityFragment().show(getSupportFragmentManager(), "Add City");
+        });
+
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Create new fragment and pass selected City data to it
+                AddCityFragment editCityFragment = AddCityFragment.newInstance(cityAdapter.getItem(i));
+                editCityFragment.show(getSupportFragmentManager(), "Edit City");
+            }
         });
     }
 
@@ -49,6 +59,15 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
     @Override
     public void addCity(City city) {
         cityAdapter.add(city);
+        cityAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void editCity(City city, String newName, String newProvince) {
+        // Make the edit
+        city.setName(newName);
+        city.setProvince(newProvince);
+        // Let the ListView know you changed it so that it can display the edit
         cityAdapter.notifyDataSetChanged();
     }
 }
