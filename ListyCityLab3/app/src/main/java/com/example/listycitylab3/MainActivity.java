@@ -56,12 +56,24 @@ public class MainActivity extends AppCompatActivity implements AddCityFragment.A
 
     // Other Functions
 
+    /**
+     * Implements the addCity() method in the AddCityDialogListener interface
+     * Adds a City to cityList
+     * @param city the City to add to cityList
+     */
     @Override
     public void addCity(City city) {
         cityAdapter.add(city);
         cityAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Implements the editCity() method in the AddCityDialogListener interface
+     * Edits the data of a City from cityList
+     * @param city the City to edit from cityList
+     * @param newName the new name to apply to city
+     * @param newProvince the new province to apply to city
+     */
     @Override
     public void editCity(City city, String newName, String newProvince) {
         // Make the edit

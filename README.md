@@ -4,7 +4,7 @@
 
 List any resources used here, or simply put `N/A` if not applicable.
 
-N/A
+I consulted Microsoft Copilot for general guidance on fragment argument passing and edit/add dialog logic; all implementation is my own.
 
 ## Verbal Collaboration
 

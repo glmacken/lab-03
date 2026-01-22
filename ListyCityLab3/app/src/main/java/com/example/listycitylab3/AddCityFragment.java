@@ -12,6 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * A dialog fragment used for adding or editing a City object.
+ * This fragment displays UI used to capture user input and return that input
+ * to the host activity via the AddCityDialogueListener which must be implemented in the host.
+ */
 public class AddCityFragment extends DialogFragment {
 
     public interface AddCityDialogListener {
@@ -21,6 +26,11 @@ public class AddCityFragment extends DialogFragment {
 
     private AddCityDialogListener listener;
 
+    /**
+     * Overrides the onAttach() method
+     * This implementation checks for a listener in the calling Activity
+     * @param context the current state of the app provided by the calling Activity
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -32,6 +42,14 @@ public class AddCityFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Overrides the onCreateDialogue() function
+     * This implementation is used in conjunction with a ListView consisting of City objects
+     * @param savedInstanceState The last saved instance state of the Fragment,
+     * or null if this is a freshly created Fragment.
+     *
+     * @return a dialog used to add or edit a City element in a ListView
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -49,6 +67,7 @@ public class AddCityFragment extends DialogFragment {
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        // If there's a city to edit, overwrite the default dialogue in the dialogue box
         if (cityToEdit != null) {
             editCityName.setText(cityToEdit.getName());
             editProvinceName.setText(cityToEdit.getProvince());
@@ -61,7 +80,7 @@ public class AddCityFragment extends DialogFragment {
                 .setPositiveButton("Confirm", (dialog, which) -> {
                     String cityName = editCityName.getText().toString();
                     String provinceName = editProvinceName.getText().toString();
-                    if (cityToEdit != null) { // Edit mode
+                    if (cityToEdit != null) { // Edit mode (there's a city to edit)
                         listener.editCity(cityToEdit, cityName, provinceName);
                     } else { // Add mode
                         listener.addCity(new City(cityName, provinceName));

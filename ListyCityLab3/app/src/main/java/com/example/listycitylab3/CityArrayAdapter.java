@@ -19,7 +19,7 @@ public class CityArrayAdapter extends ArrayAdapter<City> {
 
     /**
      * Creates a CityArrayAdapter
-     * @param context
+     * @param context The calling activity's context. The current state of the app.
      * @param cities an ArrayList of City objects
      */
     public CityArrayAdapter(Context context, ArrayList<City> cities) {
